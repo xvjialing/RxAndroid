@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HelloWorldActivity" />
-        <activity android:name=".SignalActivity"></activity>
+        <activity android:name=".SignalActivity" />
+        <activity android:name=".TransformingActivity"></activity>
     </application>
 
 </manifest>

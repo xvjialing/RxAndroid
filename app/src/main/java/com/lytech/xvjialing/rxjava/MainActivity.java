@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnHelloWorld;
     @BindView(R.id.btn_signal)
     Button btnSignal;
+    @BindView(R.id.btn_transform)
+    Button btnTransform;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +28,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.btn_helloWorld, R.id.btn_signal})
+    @OnClick({R.id.btn_helloWorld, R.id.btn_signal,R.id.btn_transform})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_helloWorld:
-                startActivity(new Intent(this,HelloWorldActivity.class));
+                startActivity(new Intent(this, HelloWorldActivity.class));
                 break;
             case R.id.btn_signal:
-                startActivity(new Intent(this,SignalActivity.class));
+                startActivity(new Intent(this, SignalActivity.class));
+                break;
+            case R.id.btn_transform:
+                startActivity(new Intent(this, TransformingActivity.class));
                 break;
         }
     }
