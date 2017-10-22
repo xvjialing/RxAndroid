@@ -142,7 +142,7 @@ public class TransformingActivity extends AppCompatActivity {
     }
 
     /**
-     * groupB操作符
+     * groupBy操作符
      * divide an Observable into a set of Observables that each emit a different group of items from the original Observable, organized by key
      * 将一个Observable分成一组可观察值，每个Observable可以从原始的Observable发出一组不同的项目，按键组织
      */
