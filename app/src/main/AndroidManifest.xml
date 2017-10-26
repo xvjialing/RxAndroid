@@ -19,7 +19,8 @@
         <activity android:name=".HelloWorldActivity" />
         <activity android:name=".SignalActivity" />
         <activity android:name=".TransformingActivity" />
-        <activity android:name=".FilterActivity"></activity>
+        <activity android:name=".FilterActivity" />
+        <activity android:name=".CombiningActivity"></activity>
     </application>
 
 </manifest>
