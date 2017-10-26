@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnSignal;
     @BindView(R.id.btn_transform)
     Button btnTransform;
+    @BindView(R.id.btn_filter)
+    Button btnFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.btn_helloWorld, R.id.btn_signal,R.id.btn_transform})
+    @OnClick({R.id.btn_helloWorld, R.id.btn_signal, R.id.btn_transform,R.id.btn_filter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_helloWorld:
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_transform:
                 startActivity(new Intent(this, TransformingActivity.class));
+                break;
+            case R.id.btn_filter:
+                startActivity(new Intent(this,FilterActivity.class));
                 break;
         }
     }

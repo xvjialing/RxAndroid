@@ -20,6 +20,11 @@
 
 [创建操作符，用来创建被观察者](/doc/创建操作符.md)
 
-### 转换被观察者(Transform Pbservable)
+### 转换被观察者(Transform Observable)
 
 [转换操作符，用来转换被观察者](/doc/转换操作符.md)
+
+### 过滤操作符(Filtering Observable)
+
+[过滤操作符，用来过滤](/doc/过滤操作符.md)
+

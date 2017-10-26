@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".HelloWorldActivity" />
         <activity android:name=".SignalActivity" />
-        <activity android:name=".TransformingActivity"></activity>
+        <activity android:name=".TransformingActivity" />
+        <activity android:name=".FilterActivity"></activity>
     </application>
 
 </manifest>
