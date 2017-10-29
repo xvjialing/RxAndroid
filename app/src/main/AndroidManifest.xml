@@ -20,7 +20,8 @@
         <activity android:name=".SignalActivity" />
         <activity android:name=".TransformingActivity" />
         <activity android:name=".FilterActivity" />
-        <activity android:name=".CombiningActivity"></activity>
+        <activity android:name=".CombiningActivity" />
+        <activity android:name=".ErrorHandlingActivity"></activity>
     </application>
 
 </manifest>
