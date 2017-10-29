@@ -2,12 +2,251 @@ package com.lytech.xvjialing.rxjava;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.functions.Func2;
 
 public class CombiningActivity extends AppCompatActivity {
+
+    private static final String TAG = CombiningActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combining);
+
+        //zip操作符
+        //zip();
+
+        //merge操作符
+        //merge();
+
+        //startWith操作符
+        //startWith();
+
+        //combineLatest操作符
+        //combineLatest();
+
+        //join操作符
+        join();
+    }
+
+    /**
+     * join操作符
+     * combine items emitted by two Observables whenever an item from one Observable is emitted during a time window defined according to an item emitted by the other Observable
+     * 组合两个Observables发出的项目，每当在根据另一个可观察者发出的项目定义的时间窗口期间发出来自一个Observable的项目
+     */
+    private void join() {
+        //目标Observable
+        Observable<Integer> obs1 = Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                for (int i = 1; i < 5; i++) {
+                    subscriber.onNext(i);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+//join
+        Observable.just("srcObs-")
+                .join(obs1,
+                        //接受从源Observable发射来的数据，并返回一个Observable，
+                        //这个Observable的生命周期决定了源Observable发射出来数据的有效期
+                        new Func1<String, Observable<Long>>() {
+                            @Override
+                            public Observable<Long> call(String s) {
+                                return Observable.timer(3000, TimeUnit.MILLISECONDS);
+                            }
+                        },
+                        //接受从目标Observable发射来的数据，并返回一个Observable，
+                        //这个Observable的生命周期决定了目标Observable发射出来数据的有效期
+                        new Func1<Integer, Observable<Long>>() {
+                            @Override
+                            public Observable<Long> call(Integer integer) {
+                                return Observable.timer(2000, TimeUnit.MILLISECONDS);
+                            }
+                        },
+                        //接收从源Observable和目标Observable发射来的数据，并返回最终组合完的数据
+                        new Func2<String,Integer,String>() {
+                            @Override
+                            public String call(String str1, Integer integer) {
+                                return str1 + integer;
+                            }
+                        })
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String o) {
+                        Log.v(TAG,"join:"+o);
+                    }
+                });
+
+//groupJoin
+        Observable.just("srcObs-").groupJoin(obs1,
+                new Func1<String, Observable<Long>>() {
+                    @Override
+                    public Observable<Long> call(String s) {
+                        return Observable.timer(3000, TimeUnit.MILLISECONDS);
+                    }
+                },
+                new Func1<Integer, Observable<Long>>() {
+                    @Override
+                    public Observable<Long> call(Integer integer) {
+                        return Observable.timer(2000, TimeUnit.MILLISECONDS);
+                    }
+                },
+                new Func2<String,Observable<Integer>, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(final String s, Observable<Integer> integerObservable) {
+                        return integerObservable.map(new Func1<Integer, String>() {
+                            @Override
+                            public String call(Integer integer) {
+                                return s+integer;
+                            }
+                        });
+                    }
+                })
+                .subscribe(new Action1<Observable<String>>() {
+                    @Override
+                    public void call(Observable<String> stringObservable) {
+                        stringObservable.subscribe(new Action1<String>() {
+                            @Override
+                            public void call(String s) {
+                                Log.v(TAG,"groupJoin:"+s);
+                            }
+                        });
+                    }
+                });
+    }
+
+    /**
+     * combineLatest操作符
+     * when an item is emitted by either of two Observables, combine the latest item emitted by each Observable via a specified function and emit items based on the results of this function
+     * 当两个Observables中的任一个发出一个项目时，通过指定的函数组合每个Observable发出的最新项目，并根据该函数的结果发出项目
+     * 将前一个数据集合的最后一项分别与后一个数据集合根据相应规则进行匹配
+     */
+    private void combineLatest() {
+        Observable<Integer> observable1=Observable.just(1,2,3,4,5);
+        Observable<Integer> observable2=Observable.just(2,3,4,5,6);
+
+        observable1.combineLatest(observable1, observable2, new Func2<Integer, Integer, Integer>() {
+            @Override
+            public Integer call(Integer integer, Integer integer2) {
+                return integer+integer2;
+            }
+        }).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+                Log.d(TAG, "onCompleted: ");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Log.d(TAG, "onNext: "+integer);
+            }
+        });
+    }
+
+    /**
+     * startWith操作符
+     * emit a specified sequence of items before beginning to emit the items from the source Observable
+     * 在开始从源Observable发出项目之前发出指定的项目序列
+     * 在Observale发射数据前插入数据，可以是单个数据，也可以是列表
+     */
+    private void startWith() {
+        Observable<Integer> observable1=Observable.just(1,2,3,4,5);
+        Observable<Integer> observable2=Observable.just(2,3,4,5,6);
+
+        observable1.startWith(observable2)
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError: ");
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        Log.d(TAG, "onNext: "+integer);
+                    }
+                });
+    }
+
+    /**
+     * merger操作符
+     * combine multiple Observables into one by merging their emissions
+     * 将两个Observale前后合并成一列
+     */
+    private void merge() {
+        Observable<Integer> observable1=Observable.just(1,2,3,4,5);
+        Observable<Integer> observable2=Observable.just(2,3,4,5,6);
+
+        Observable.merge(observable1,observable2)
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError: ");
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        Log.d(TAG, "onNext: "+integer);
+                    }
+                });
+    }
+
+    /**
+     * zip操作符
+     * combine the emissions of multiple Observables together via a specified function and emit single items for each combination based on the results of this function
+     * 通过指定的功能将多个Observables的排放组合在一起，并根据此功能的结果为每个组合发出单个项目
+     * 当一个Observale发送数据结束或出现异常后，另一个Observable也将停止发射数据
+     */
+    private void zip() {
+        Observable<Integer> observable1=Observable.just(10,20,30);
+        Observable<Integer> observable2=Observable.just(4,8,12,16);
+        Observable.zip(observable1, observable2, new Func2<Integer, Integer, Integer>() {
+            @Override
+            public Integer call(Integer integer, Integer integer2) {
+                return integer+integer2;
+            }
+        }).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+                Log.d(TAG, "onCompleted: ");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Log.d(TAG, "onNext: "+integer);
+            }
+        });
     }
 }
