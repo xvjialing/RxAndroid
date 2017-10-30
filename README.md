@@ -37,3 +37,18 @@
 
 [错误处理操作符，用来处理错误与异常](/doc/错误处理操作符.md)
 
+## 调度器
+
+调度器是RxJava以一种极其简单的方式解决多线程问题机制
+
+![调度器种类](img/调度器种类.png)
+
+| 调度器操作符 | 作用 |
+| ----- | :-------: |
+| Schedulers.io() | 用于I/O操作，主要用于各种耗时操作 |
+| Schedulers.computation() | 计算工作的默认调度器，与I/O操作无关。例如：buffer(),debounce(),delay(),interval(),sample(),skip() |
+| Schedulers.immediate() | 允许你立即在当前线程执行你指定的工作。例如：timeout(),timeInteval(),timestamp() |
+| Schedulers.newThread()  | 指定任务启动一个新的线程 |
+
+
+
