@@ -49,6 +49,22 @@
 | Schedulers.computation() | 计算工作的默认调度器，与I/O操作无关。例如：buffer(),debounce(),delay(),interval(),sample(),skip() |
 | Schedulers.immediate() | 允许你立即在当前线程执行你指定的工作。例如：timeout(),timeInteval(),timestamp() |
 | Schedulers.newThread()  | 指定任务启动一个新的线程 |
+| Schedulers.trampoline() | 将会按序处理队列，并运行队列中的每一个任务。例如：repeat(),retry() |
+
+
+### AndroidSchedulers
+
+AndroidSchedulers是RxAndroid库提供在android平台的调度器（指定观察者在主线程，主要用于在主线程更新UI）
+
+### SubscribeOn And ObserveOn 
+
+SubscribeOn提供了subscribeOn()方法来用于每个Observale对象，用来指定被观察者运行在哪个线程
+
+ObserveOn提供了subscribeOn()方法来用于每个Subscriber(Observer)对象，用来指定观察者运行在哪个线程。
+
+![Android线程调度](img/Android线程调度示例.png)
+
+
 
 
 

@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnFilter;
     @BindView(R.id.btn_combind)
     Button btnCombind;
+    @BindView(R.id.btn_schedulers)
+    Button btnSchedulers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.btn_helloWorld, R.id.btn_signal, R.id.btn_transform, R.id.btn_filter,R.id.btn_combind})
+    @OnClick({R.id.btn_helloWorld, R.id.btn_signal, R.id.btn_transform, R.id.btn_filter, R.id.btn_combind,R.id.btn_schedulers})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_helloWorld:
@@ -48,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, FilterActivity.class));
                 break;
             case R.id.btn_combind:
-                startActivity(new Intent(this,CombiningActivity.class));
+                startActivity(new Intent(this, CombiningActivity.class));
+                break;
+            case R.id.btn_schedulers:
+                startActivity(new Intent(this,SchedulersActivity.class));
                 break;
         }
     }

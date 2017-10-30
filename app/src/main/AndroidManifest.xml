@@ -21,7 +21,8 @@
         <activity android:name=".TransformingActivity" />
         <activity android:name=".FilterActivity" />
         <activity android:name=".CombiningActivity" />
-        <activity android:name=".ErrorHandlingActivity"></activity>
+        <activity android:name=".ErrorHandlingActivity" />
+        <activity android:name=".SchedulersActivity"></activity>
     </application>
 
 </manifest>

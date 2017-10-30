@@ -41,10 +41,16 @@
                 android:text="过滤操作符"/>
 
             <Button
-                android:id="@+id/btn_combind"
+            android:id="@+id/btn_combind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="组合操作符"/>
+
+            <Button
+                android:id="@+id/btn_schedulers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="组合操作符"/>
+                android:text="调度器操作符"/>
 
         </LinearLayout>
     </ScrollView>
